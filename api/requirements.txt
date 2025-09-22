@@ -1,37 +1,34 @@
 # ===============================================================
-# API DEPLOYMENT REQUIREMENTS
+# VERCEL DEPLOYMENT REQUIREMENTS
 # ===============================================================
-# Minimal requirements for API deployment
-# For full security features, use ../requirements.txt
+# Minimal requirements optimized for Vercel serverless deployment
+# Vercel has size and time limitations for package installation
 
-# Core Flask and Web Framework
+# Core Flask Framework (Essential)
 Flask==2.3.3
-Flask-WTF==1.2.1
-Flask-Login==0.6.3
 Flask-CORS==4.0.0
-WTForms==3.0.1
 Werkzeug==2.3.7
-Jinja2==3.1.2
-MarkupSafe==2.1.3
-itsdangerous==2.1.2
-click==8.1.7
 
-# File Processing
-PyPDF2==3.0.1
-python-docx==0.8.11
+# For Form Handling (if needed)
+WTForms==3.0.1
+Flask-WTF==1.2.1
 
-# Email Validation
-email-validator==2.1.0
+# For Authentication (if needed)
+Flask-Login==0.6.3
+
+# Basic Security
+Werkzeug==2.3.7
 
 # Environment Configuration
 python-dotenv==1.0.0
 
-# Production Server
-gunicorn==21.2.0
-
-# Security (Minimal)
-cryptography==41.0.7
-
-# Note: For full production deployment with enhanced security,
-# install from the main requirements.txt file instead:
-# pip install -r ../requirements.txt
+# Note: Some packages removed for Vercel compatibility:
+# - PyPDF2 and python-docx (large dependencies)
+# - cryptography (compilation issues on serverless)
+# - gunicorn (not needed for serverless)
+# 
+# For full features, use other deployment platforms like:
+# - Railway
+# - Render
+# - Heroku
+# - VPS with Docker

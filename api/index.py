@@ -265,6 +265,16 @@ def create_app():
     initialize_app()
     return app
 
+# Initialize the app for Vercel
+try:
+    initialize_app()
+except Exception as e:
+    print(f"Warning: Could not initialize app fully: {e}")
+
+# Vercel requires the app to be available at module level
+# This is the WSGI callable that Vercel will use
+handler = app
+
 # Development server
 if __name__ == '__main__':
     initialize_app()

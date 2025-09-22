@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/standalone.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api/standalone.py"
+    }
+  ],
+  "env": {
+    "PYTHON_VERSION": "3.9"
+  },
+  "functions": {
+    "api/standalone.py": {
+      "maxDuration": 10
+    }
+  }
+}
