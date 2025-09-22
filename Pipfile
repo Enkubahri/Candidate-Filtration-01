@@ -1,0 +1,96 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+# Core Flask and Web Framework
+Flask = "==2.3.3"
+Flask-Login = "==0.6.3"
+Flask-WTF = "==1.2.1"
+Flask-CORS = "==4.0.0"
+WTForms = "==3.0.1"
+Werkzeug = "==2.3.7"
+Jinja2 = "==3.1.2"
+MarkupSafe = "==2.1.3"
+itsdangerous = "==2.1.2"
+click = "==8.1.7"
+
+# Security Dependencies
+cryptography = "==41.0.7"
+python-dotenv = "==1.0.0"
+bleach = "==6.1.0"
+python-magic = "==0.4.27"
+python-magic-bin = "==0.4.14"
+
+# Password and Authentication Security
+passlib = {extras = ["bcrypt"], version = "==1.7.4"}
+argon2-cffi = "==23.1.0"
+
+# Rate Limiting and Request Security
+Flask-Limiter = "==3.5.0"
+redis = "==5.0.1"
+
+# Session Security
+Flask-Session = "==0.5.0"
+
+# File Processing and Document Handling
+PyPDF2 = "==3.0.1"
+python-docx = "==0.8.11"
+
+# Email Security
+email-validator = "==2.1.0"
+
+# Logging and Monitoring
+python-json-logger = "==2.0.7"
+
+# WSGI Server (Production)
+gunicorn = "==21.2.0"
+gevent = "==23.9.1"
+
+# SSL/TLS Security
+pyOpenSSL = "==23.3.0"
+certifi = "==2023.7.22"
+
+# Content Security
+Pillow = "==10.1.0"
+defusedxml = "==0.7.1"
+
+# Database Backup and Encryption
+cryptg = "==0.4.0"
+
+# System and OS Security
+psutil = "==5.9.6"
+
+# HTTP Security Headers
+flask-talisman = "==1.1.0"
+
+# Input Validation
+marshmallow = "==3.20.1"
+jsonschema = "==4.19.2"
+
+[dev-packages]
+# Development and Testing
+pytest = "==7.4.3"
+pytest-flask = "==1.3.0"
+coverage = "==7.3.2"
+
+# Development Tools
+black = "*"
+flake8 = "*"
+isort = "*"
+mypy = "*"
+
+[requires]
+python_version = "3.13"
+
+[scripts]
+start = "python app.py"
+start-api = "python api/index.py"
+test = "pytest"
+lint = "flake8 ."
+format = "black ."
+sort-imports = "isort ."
+type-check = "mypy ."
+production = "gunicorn --bind 0.0.0.0:5000 --workers 2 app:app"
+api-production = "gunicorn --bind 0.0.0.0:5000 --workers 2 api.index:app"

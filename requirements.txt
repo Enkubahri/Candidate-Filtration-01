@@ -1,9 +1,184 @@
+# ===============================================================
+# CANDIDATE FILTRATION SYSTEM - PRODUCTION REQUIREMENTS
+# ===============================================================
+# Consolidated requirements file for production deployment
+# Generated from multiple requirements files and optimized for security
+#
+# Installation: pip install -r requirements.txt
+# Python Version: 3.13+
+# ===============================================================
+
+# ===========================================
+# CORE FLASK AND WEB FRAMEWORK
+# ===========================================
 Flask==2.3.3
-Flask-WTF==1.1.1
 Flask-Login==0.6.3
+Flask-WTF==1.2.1
+Flask-CORS==4.0.0
 WTForms==3.0.1
-email-validator==2.0.0
-PyPDF2==3.0.1
-python-docx==0.8.11
-werkzeug==2.3.7
+Werkzeug==2.3.7
+Jinja2==3.1.2
+MarkupSafe==2.1.3
+itsdangerous==2.1.2
+click==8.1.7
+
+# ===========================================
+# SECURITY DEPENDENCIES
+# ===========================================
+# Data encryption and secure key derivation
+cryptography==41.0.7
+
+# Environment variable management
 python-dotenv==1.0.0
+
+# HTML sanitization and XSS prevention
+bleach==6.1.0
+
+# File type validation
+python-magic==0.4.27
+python-magic-bin==0.4.14
+
+# ===========================================
+# PASSWORD AND AUTHENTICATION SECURITY
+# ===========================================
+# Advanced password hashing
+passlib[bcrypt]==1.7.4
+
+# Argon2 password hashing (recommended)
+argon2-cffi==23.1.0
+
+# ===========================================
+# RATE LIMITING AND REQUEST SECURITY
+# ===========================================
+# Rate limiting for Flask
+Flask-Limiter==3.5.0
+
+# For distributed rate limiting storage
+redis==5.0.1
+
+# ===========================================
+# SESSION SECURITY
+# ===========================================
+# Server-side session management
+Flask-Session==0.5.0
+
+# ===========================================
+# FILE PROCESSING AND DOCUMENT HANDLING
+# ===========================================
+# PDF processing
+PyPDF2==3.0.1
+
+# Word document processing
+python-docx==0.8.11
+
+# ===========================================
+# EMAIL SECURITY
+# ===========================================
+# Email validation
+email-validator==2.1.0
+
+# ===========================================
+# LOGGING AND MONITORING
+# ===========================================
+# JSON structured logging
+python-json-logger==2.0.7
+
+# ===========================================
+# WSGI SERVER (PRODUCTION)
+# ===========================================
+# Production WSGI server
+gunicorn==21.2.0
+
+# Async worker for gunicorn
+gevent==23.9.1
+
+# ===========================================
+# SSL/TLS SECURITY
+# ===========================================
+# SSL certificate handling
+pyOpenSSL==23.3.0
+
+# CA certificate bundle
+certifi==2023.7.22
+
+# ===========================================
+# CONTENT SECURITY
+# ===========================================
+# Image processing and validation
+Pillow==10.1.0
+
+# XML bomb protection
+defusedxml==0.7.1
+
+# ===========================================
+# DATABASE AND ENCRYPTION
+# ===========================================
+# Additional cryptography support
+cryptg==0.4.0
+
+# ===========================================
+# SYSTEM AND OS SECURITY
+# ===========================================
+# System monitoring
+psutil==5.9.6
+
+# ===========================================
+# HTTP SECURITY HEADERS
+# ===========================================
+# Security headers middleware
+flask-talisman==1.1.0
+
+# ===========================================
+# INPUT VALIDATION
+# ===========================================
+# Schema validation
+marshmallow==3.20.1
+
+# JSON schema validation
+jsonschema==4.19.2
+
+# ===========================================
+# DEVELOPMENT AND TESTING (OPTIONAL)
+# ===========================================
+# Uncomment for development environments
+# pytest==7.4.3
+# pytest-flask==1.3.0
+# coverage==7.3.2
+# black
+# flake8
+# isort
+# mypy
+
+# ===========================================
+# NOTES
+# ===========================================
+# Built-in Python modules (no installation required):
+# - sqlite3 (database)
+# - secrets (cryptographic secrets)
+# - hashlib (hashing algorithms)
+# - hmac (HMAC authentication)
+# - base64 (encoding)
+# - os (operating system interface)
+# - sys (system-specific parameters)
+# - datetime (date and time handling)
+# - json (JSON encoder/decoder)
+# - re (regular expressions)
+# - random (random number generation)
+# - threading (threading support)
+# - logging (logging facility)
+
+# ===========================================
+# INSTALLATION COMMANDS
+# ===========================================
+# Standard installation:
+# pip install -r requirements.txt
+#
+# With pipenv (recommended):
+# pipenv install
+#
+# Development installation:
+# pipenv install --dev
+#
+# Production deployment:
+# pip install --no-cache-dir -r requirements.txt
+# ===========================================
