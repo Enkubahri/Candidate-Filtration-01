@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Users - Candidate Filtration System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Admin User Management</h2>
+            <div>
+                <a href="{{ url_for('create_admin_user') }}" class="btn btn-success">
+                    <i class="bi bi-person-plus"></i> Create New Admin
+                </a>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">System Administrators</h5>
+            </div>
+            <div class="card-body">
+                {% if admin_users %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Email Address</th>
+                                    <th>Role</th>
+                                    <th>Created Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in admin_users %}
+                                <tr>
+                                    <td>{{ user[0] }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if user[0] == current_user.id %}
+                                                <i class="bi bi-person-check text-primary me-2" title="Current User"></i>
+                                            {% endif %}
+                                            {{ user[1] }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-primary">{{ user[2].title() }}</span>
+                                    </td>
+                                    <td>{{ user[3][:10] if user[3] else 'Unknown' }}</td>
+                                    <td>
+                                        {% if user[4] %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Inactive</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            {% if user[0] == current_user.id %}
+                                                <span class="text-muted small">Current User</span>
+                                            {% else %}
+                                                <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#userModal{{ user[0] }}">
+                                                    <i class="bi bi-eye"></i> View
+                                                </button>
+                                                {% if user[4] %}
+                                                    <button class="btn btn-sm btn-outline-warning" onclick="toggleUserStatus({{ user[0] }}, false)">
+                                                        <i class="bi bi-person-x"></i> Deactivate
+                                                    </button>
+                                                {% else %}
+                                                    <button class="btn btn-sm btn-outline-success" onclick="toggleUserStatus({{ user[0] }}, true)">
+                                                        <i class="bi bi-person-check"></i> Activate
+                                                    </button>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Modal for user details -->
+                                <div class="modal fade" id="userModal{{ user[0] }}" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Admin User Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-sm-4"><strong>User ID:</strong></div>
+                                                    <div class="col-sm-8">{{ user[0] }}</div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-4"><strong>Email:</strong></div>
+                                                    <div class="col-sm-8">{{ user[1] }}</div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-4"><strong>Role:</strong></div>
+                                                    <div class="col-sm-8">
+                                                        <span class="badge bg-primary">{{ user[2].title() }}</span>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-4"><strong>Created:</strong></div>
+                                                    <div class="col-sm-8">{{ user[3] if user[3] else 'Unknown' }}</div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-4"><strong>Status:</strong></div>
+                                                    <div class="col-sm-8">
+                                                        {% if user[4] %}
+                                                            <span class="badge bg-success">Active</span>
+                                                        {% else %}
+                                                            <span class="badge bg-secondary">Inactive</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-people display-1 text-muted"></i>
+                        <h4 class="mt-3 text-muted">No Admin Users Found</h4>
+                        <p class="text-muted">This shouldn't happen - there should be at least one admin user.</p>
+                        <a href="{{ url_for('create_admin_user') }}" class="btn btn-success">
+                            <i class="bi bi-person-plus"></i> Create Admin User
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Card -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="bi bi-bar-chart"></i> Admin Statistics</h6>
+            </div>
+            <div class="card-body">
+                {% if admin_users %}
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <h4 class="text-success">{{ admin_users|selectattr('4')|list|length }}</h4>
+                            <p class="small text-muted">Active Admins</p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <h4 class="text-secondary">{{ admin_users|rejectattr('4')|list|length }}</h4>
+                            <p class="small text-muted">Inactive Admins</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <p class="small text-muted mb-0">
+                        <strong>Total Admin Users:</strong> {{ admin_users|length }}
+                    </p>
+                {% else %}
+                    <p class="text-muted mb-0">No statistics available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card border-info">
+            <div class="card-header bg-info text-white">
+                <h6 class="mb-0"><i class="bi bi-shield-check"></i> Security Guidelines</h6>
+            </div>
+            <div class="card-body">
+                <ul class="small mb-0">
+                    <li><strong>Regular Review:</strong> Periodically review admin access</li>
+                    <li><strong>Principle of Least Privilege:</strong> Only create necessary admin accounts</li>
+                    <li><strong>Account Lifecycle:</strong> Deactivate unused accounts</li>
+                    <li><strong>Strong Passwords:</strong> Enforce strong password policies</li>
+                    <li><strong>Activity Monitoring:</strong> Monitor admin activities</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleUserStatus(userId, activate) {
+    const action = activate ? 'activate' : 'deactivate';
+    if (confirm(`Are you sure you want to ${action} this admin user?`)) {
+        // This would be implemented with AJAX in a full application
+        alert(`User ${action} functionality would be implemented here. This would send a request to update the user's status in the database.`);
+        // For now, just reload the page to simulate the change
+        // location.reload();
+    }
+}
+</script>
+
+<style>
+.table td {
+    vertical-align: middle;
+}
+
+.btn-group .btn {
+    margin-right: 2px;
+}
+
+.btn-group .btn:last-child {
+    margin-right: 0;
+}
+
+.modal hr {
+    margin: 0.5rem 0;
+}
+</style>
+
+{% endblock %}

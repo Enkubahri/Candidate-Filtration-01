@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Candidate Dashboard - Candidate Filtration System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Welcome, {{ current_user.email }}!</h2>
+            <div>
+                <a href="{{ url_for('candidate_apply') }}" class="btn btn-success">Submit New Application</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3 class="card-title text-primary">{{ applications|length }}</h3>
+                <p class="card-text">Total Applications</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3 class="card-title text-success">{{ applications|selectattr('10', 'equalto', 'passed')|list|length }}</h3>
+                <p class="card-text">Passed Applications</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3 class="card-title text-warning">{{ applications|selectattr('10', 'equalto', 'pending')|list|length }}</h3>
+                <p class="card-text">Pending Applications</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Your Applications</h4>
+            </div>
+            <div class="card-body">
+                {% if applications %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Experience</th>
+                                    <th>Education</th>
+                                    <th>Skills</th>
+                                    <th>Resume</th>
+                                    <th>Status</th>
+                                    <th>Submitted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for application in applications %}
+                                <tr>
+                                    <td>{{ application[2] }}</td>
+                                    <td>{{ application[3] }}</td>
+                                    <td>{{ application[4] }}</td>
+                                    <td>{{ application[5] }} years</td>
+                                    <td>{{ application[6].replace('_', ' ').title() }}</td>
+                                    <td>{{ application[7][:50] }}{% if application[7]|length > 50 %}...{% endif %}</td>
+                                    <td>
+                                        {% if application[8] %}
+                                            <a href="{{ url_for('static', filename='../uploads/' + application[8]) }}" target="_blank" class="btn btn-sm btn-outline-primary">View Resume</a>
+                                        {% else %}
+                                            No resume
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if application[10] == 'passed' %}
+                                            <span class="badge bg-success">Passed</span>
+                                        {% elif application[10] == 'failed' %}
+                                            <span class="badge bg-danger">Failed</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ application[9] }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <p class="text-muted">You haven't submitted any applications yet.</p>
+                        <a href="{{ url_for('candidate_apply') }}" class="btn btn-success">Submit Your First Application</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Tips</h5>
+            </div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li>Make sure your resume is up to date and in PDF or Word format</li>
+                    <li>List your skills clearly and accurately</li>
+                    <li>Include relevant work experience</li>
+                    <li>Check your application status regularly</li>
+                    <li>You can submit multiple applications for different positions</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

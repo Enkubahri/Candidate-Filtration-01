@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+
+{% block title %}Apply Now - Candidate Filtration System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0">Job Application Form</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" id="candidateForm">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.name.label(class="form-label") }}
+                        {{ form.name(class="form-control") }}
+                        {% if form.name.errors %}
+                            <div class="text-danger">
+                                {% for error in form.name.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control") }}
+                        {% if form.email.errors %}
+                            <div class="text-danger">
+                                {% for error in form.email.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.phone.label(class="form-label") }}
+                        {{ form.phone(class="form-control") }}
+                        {% if form.phone.errors %}
+                            <div class="text-danger">
+                                {% for error in form.phone.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.position_of_interest.label(class="form-label") }}
+                        {{ form.position_of_interest(class="form-control") }}
+                        <div class="form-text">Select the position you are most interested in from our current job openings</div>
+                        {% if form.position_of_interest.errors %}
+                            <div class="text-danger">
+                                {% for error in form.position_of_interest.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.education.label(class="form-label") }}
+                        {{ form.education(class="form-control") }}
+                        {% if form.education.errors %}
+                            <div class="text-danger">
+                                {% for error in form.education.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.education_certification.label(class="form-label") }}
+                        {{ form.education_certification(class="form-control") }}
+                        <div class="form-text">Specify your field of study, certification, or specialization (required)</div>
+                        {% if form.education_certification.errors %}
+                            <div class="text-danger">
+                                {% for error in form.education_certification.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.gender.label(class="form-label") }}
+                        <div class="form-check-container">
+                            {% for choice in form.gender %}
+                                <div class="form-check form-check-inline">
+                                    {{ choice(class="form-check-input") }}
+                                    {{ choice.label(class="form-check-label") }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.gender.errors %}
+                            <div class="text-danger">
+                                {% for error in form.gender.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Previous Experience Positions</label>
+                        <div class="form-text mb-3">Enter detailed descriptions of all three previous job experiences (all required)</div>
+                        
+                        <!-- Experience Position 1 (Required) -->
+                        <div class="border rounded p-3 mb-3">
+                            <h6 class="text-primary mb-3">Experience Position 1 (Required)</h6>
+                            
+                            <div class="mb-3">
+                                {{ form.experience_1_position_title.label(class="form-label") }}
+                                {{ form.experience_1_position_title(class="form-control", placeholder="e.g., Software Engineer, Marketing Manager, Sales Associate...") }}
+                                {% if form.experience_1_position_title.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.experience_1_position_title.errors %}
+                                            <small>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.experience_1.label(class="form-label") }}
+                                {{ form.experience_1(class="form-control", rows="4", placeholder="Describe your job responsibilities, achievements, and key tasks in detail...") }}
+                                {% if form.experience_1.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.experience_1.errors %}
+                                            <small>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        {{ form.experience_1_start_date.label(class="form-label") }}
+                                        {{ form.experience_1_start_date(class="form-control") }}
+                                        {% if form.experience_1_start_date.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.experience_1_start_date.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        {{ form.experience_1_end_date.label(class="form-label") }}
+                                        {{ form.experience_1_end_date(class="form-control") }}
+                                        {% if form.experience_1_end_date.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.experience_1_end_date.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Experience Position 2 (Required) -->
+                        <div class="border rounded p-3 mb-3">
+                            <h6 class="text-primary mb-3">Experience Position 2 (Required)</h6>
+                            
+                            <div class="mb-3">
+                                {{ form.experience_2_position_title.label(class="form-label") }}
+                                {{ form.experience_2_position_title(class="form-control", placeholder="e.g., Project Manager, Data Analyst, Customer Service Rep...") }}
+                                {% if form.experience_2_position_title.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.experience_2_position_title.errors %}
+                                            <small>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.experience_2.label(class="form-label") }}
+                                {{ form.experience_2(class="form-control", rows="4", placeholder="Describe your second job experience in detail...") }}
+                                {% if form.experience_2.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.experience_2.errors %}
+                                            <small>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        {{ form.experience_2_start_date.label(class="form-label") }}
+                                        {{ form.experience_2_start_date(class="form-control") }}
+                                        {% if form.experience_2_start_date.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.experience_2_start_date.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        {{ form.experience_2_end_date.label(class="form-label") }}
+                                        {{ form.experience_2_end_date(class="form-control") }}
+                                        {% if form.experience_2_end_date.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.experience_2_end_date.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Experience Position 3 (Required) -->
+                        <div class="border rounded p-3 mb-3">
+                            <h6 class="text-primary mb-3">Experience Position 3 (Required)</h6>
+                            
+                            <div class="mb-3">
+                                {{ form.experience_3_position_title.label(class="form-label") }}
+                                {{ form.experience_3_position_title(class="form-control", placeholder="e.g., Team Lead, Business Analyst, Operations Manager...") }}
+                                {% if form.experience_3_position_title.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.experience_3_position_title.errors %}
+                                            <small>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.experience_3.label(class="form-label") }}
+                                {{ form.experience_3(class="form-control", rows="4", placeholder="Describe your third job experience in detail...") }}
+                                {% if form.experience_3.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.experience_3.errors %}
+                                            <small>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        {{ form.experience_3_start_date.label(class="form-label") }}
+                                        {{ form.experience_3_start_date(class="form-control") }}
+                                        {% if form.experience_3_start_date.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.experience_3_start_date.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        {{ form.experience_3_end_date.label(class="form-label") }}
+                                        {{ form.experience_3_end_date(class="form-control") }}
+                                        {% if form.experience_3_end_date.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.experience_3_end_date.errors %}
+                                                    <small>{{ error }}</small>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.resume.label(class="form-label") }}
+                        {{ form.resume(class="form-control") }}
+                        <div class="form-text">Upload your resume in PDF or Word format (max 16MB)</div>
+                        {% if form.resume.errors %}
+                            <div class="text-danger">
+                                {% for error in form.resume.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-success btn-lg") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <p class="text-muted">
+                <small>By submitting this form, you consent to the processing of your personal data for recruitment purposes.</small>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

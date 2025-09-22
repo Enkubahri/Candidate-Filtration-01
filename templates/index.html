@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Candidate Filtration System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="jumbotron bg-light p-5 rounded-3">
+            <h1 class="display-4">Welcome to Our Recruitment System</h1>
+            <p class="lead">We're looking for talented individuals to join our team. Submit your application and let our automated system help us find the best match.</p>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">For Candidates</h3>
+                            <p class="card-text">Submit your application and upload your resume. Our system will automatically evaluate your qualifications against current openings.</p>
+                            <p class="text-muted small">No registration required - apply directly!</p>
+                            <a class="btn btn-success btn-lg" href="{{ url_for('candidate_form') }}">Apply Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">For Administrators</h3>
+                            <p class="card-text">Set up filtration criteria and manage candidate applications. Configure requirements for automatic screening.</p>
+                            {% if current_user.is_authenticated and current_user.role == 'admin' %}
+                                <a class="btn btn-primary btn-lg" href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
+                                <a class="btn btn-outline-primary" href="{{ url_for('admin_criteria') }}">Manage Criteria</a>
+                            {% else %}
+                                <a class="btn btn-primary btn-lg" href="{{ url_for('login') }}">Admin Login</a>
+                                <p class="text-muted small mt-2">Admin access is restricted</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h2>How It Works</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <strong>1</strong>
+                    </div>
+                    <h4 class="mt-3">Submit Application</h4>
+                    <p>Candidates fill out the application form and upload their resume.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <strong>2</strong>
+                    </div>
+                    <h4 class="mt-3">Automatic Screening</h4>
+                    <p>Our system compares candidate qualifications against admin-defined criteria.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <strong>3</strong>
+                    </div>
+                    <h4 class="mt-3">Email Notification</h4>
+                    <p>Qualified candidates' information is automatically sent to the hiring team.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

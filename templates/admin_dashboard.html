@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Candidate Filtration System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Admin Dashboard</h2>
+            <div>
+                <a href="{{ url_for('admin_criteria') }}" class="btn btn-primary">Manage Criteria</a>
+                <a href="{{ url_for('manage_job_status') }}" class="btn btn-warning">Manage Job Status</a>
+                <a href="{{ url_for('view_candidates') }}" class="btn btn-info">View Applications</a>
+                <a href="{{ url_for('admin_users') }}" class="btn btn-success">Admin Users</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 col-sm-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3 class="card-title text-primary">{{ total_applications }}</h3>
+                <p class="card-text">Total Applications</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3 class="card-title text-success">{{ status_counts.get('passed', 0) }}</h3>
+                <p class="card-text">Passed</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3 class="card-title text-danger">{{ status_counts.get('failed', 0) }}</h3>
+                <p class="card-text">Failed</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3 class="card-title text-info">{{ admin_count }}</h3>
+                <p class="card-text">Admin Users</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body text-center">
+                <h3 class="card-title text-warning">{{ status_counts.get('pending', 0) }}</h3>
+                <p class="card-text">Pending Applications</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Recent Applications</h4>
+            </div>
+            <div class="card-body">
+                {% if recent_applications %}
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Experience</th>
+                                    <th>Status</th>
+                                    <th>Submitted</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for application in recent_applications %}
+                                <tr>
+                                    <td>{{ application[1] }}</td>
+                                    <td>{{ application[2] }}</td>
+                                    <td>{{ application[26] }} yrs</td>
+                                    <td>
+                                        {% if application[9] == 'passed' %}
+                                            <span class="badge bg-success">Passed</span>
+                                        {% elif application[9] == 'failed' %}
+                                            <span class="badge bg-danger">Failed</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ application[8][:10] }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#applicationModal{{ application[0] }}">
+                                            View Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Modal for application details -->
+                                <div class="modal fade" id="applicationModal{{ application[0] }}" tabindex="-1">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Application Details - {{ application[1] }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p><strong>Email:</strong> {{ application[2] }}</p>
+                                                        <p><strong>Phone:</strong> {{ application[3] }}</p>
+                                                        <p><strong>Total Experience:</strong> {{ application[26] }} years</p>
+                                                        <p><strong>Gender:</strong> {{ application[24] if application[24] else 'N/A' }}</p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p><strong>Education:</strong> {% if application[5] %}{{ application[5].replace('_', ' ').title() }}{% else %}N/A{% endif %}</p>
+                                                        <p><strong>Education Certification:</strong> {{ application[25] if application[25] else 'N/A' }}</p>
+                                                        <p><strong>Status:</strong> 
+                                                            {% if application[9] == 'passed' %}
+                                                                <span class="badge bg-success">Passed</span>
+                                                            {% elif application[9] == 'failed' %}
+                                                                <span class="badge bg-danger">Failed</span>
+                                                            {% else %}
+                                                                <span class="badge bg-warning">Pending</span>
+                                                            {% endif %}
+                                                        </p>
+                                                        <p><strong>Submitted:</strong> {{ application[8] }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <p><strong>Work Experience:</strong></p>
+                                                        <p><strong>Position 1:</strong> {{ application[21] if application[21] else 'N/A' }} ({{ application[14] }} to {{ application[15] }})</p>
+                                                        <p><strong>Position 2:</strong> {{ application[22] if application[22] else 'N/A' }} ({{ application[16] }} to {{ application[17] }})</p>
+                                                        <p><strong>Position 3:</strong> {{ application[23] if application[23] else 'N/A' }} ({{ application[18] }} to {{ application[19] }})</p>
+                                                    </div>
+                                                </div>
+                                                {% if application[7] %}
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <p><strong>Resume:</strong></p>
+                                                        <a href="{{ url_for('static', filename='../uploads/' + application[7]) }}" target="_blank" class="btn btn-primary">View Resume</a>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('view_candidates') }}" class="btn btn-outline-primary">View All Applications</a>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <p class="text-muted">No applications have been submitted yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('admin_criteria') }}" class="btn btn-primary">Set Filtration Criteria</a>
+                    <a href="{{ url_for('view_candidates') }}" class="btn btn-info">View All Applications</a>
+                    <a href="{{ url_for('create_admin_user') }}" class="btn btn-success">Create Admin User</a>
+                    <button class="btn btn-outline-secondary" onclick="exportApplications()">Export Data</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="mb-0">System Information</h6>
+            </div>
+            <div class="card-body">
+                <p class="small mb-1"><strong>Logged in as:</strong> {{ current_user.email }}</p>
+                <p class="small mb-1"><strong>Role:</strong> Administrator</p>
+                <p class="small mb-0"><strong>Last login:</strong> {{ current_user.created_date[:10] if current_user.created_date else 'Unknown' }}</p>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="mb-0">Application Trends</h6>
+            </div>
+            <div class="card-body">
+                {% if total_applications > 0 %}
+                    <p class="small">
+                        <strong>Pass Rate:</strong> 
+                        {{ "%.1f"|format((status_counts.get('passed', 0) / total_applications) * 100) }}%
+                    </p>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-success" style="width: {{ (status_counts.get('passed', 0) / total_applications) * 100 }}%"></div>
+                    </div>
+                    <p class="small">
+                        <strong>Fail Rate:</strong>
+                        {{ "%.1f"|format((status_counts.get('failed', 0) / total_applications) * 100) }}%
+                    </p>
+                    <div class="progress">
+                        <div class="progress-bar bg-danger" style="width: {{ (status_counts.get('failed', 0) / total_applications) * 100 }}%"></div>
+                    </div>
+                {% else %}
+                    <p class="small text-muted">No data available yet</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function exportApplications() {
+    // This is a placeholder for export functionality
+    alert('Export functionality would be implemented here. This could export to CSV, Excel, or PDF format.');
+}
+</script>
+{% endblock %}

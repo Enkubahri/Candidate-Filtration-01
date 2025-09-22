@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Create Admin User - Candidate Filtration System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Create New Admin User</h4>
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.name.label(class="form-label") }}
+                        {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
+                        {% for error in form.name.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+                        {% for error in form.email.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.department.label(class="form-label") }}
+                        {{ form.department(class="form-control" + (" is-invalid" if form.department.errors else "")) }}
+                        {% for error in form.department.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                        <div class="form-text">e.g., Human Resources, IT, Marketing, Finance</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else "")) }}
+                        {% for error in form.password.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                        <div class="form-text">Password must be at least 6 characters long.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.confirm_password.label(class="form-label") }}
+                        {{ form.confirm_password(class="form-control" + (" is-invalid" if form.confirm_password.errors else "")) }}
+                        {% for error in form.confirm_password.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="alert alert-info">
+                            <h6><i class="bi bi-info-circle"></i> Admin User Privileges</h6>
+                            <small>New admin user will have the following access:</small>
+                            <ul class="mb-0 mt-2">
+                                <li>Access to admin dashboard</li>
+                                <li>Ability to view and manage candidate applications</li>
+                                <li>Permission to set filtration criteria</li>
+                                <li>Capability to create additional admin users</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">Cancel</a>
+                        {{ form.submit(class="btn btn-success") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card border-warning">
+            <div class="card-header bg-warning text-dark">
+                <h6 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Important Security Note</h6>
+            </div>
+            <div class="card-body">
+                <p class="card-text small mb-2">
+                    <strong>Admin Account Security:</strong>
+                </p>
+                <ul class="small mb-0">
+                    <li>Choose a strong, unique password</li>
+                    <li>Share credentials securely with the intended user</li>
+                    <li>Consider requiring password changes on first login</li>
+                    <li>Regularly review admin user access</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

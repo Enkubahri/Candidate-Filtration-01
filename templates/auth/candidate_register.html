@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Candidate Registration - Candidate Filtration System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0 text-center">Register as Candidate</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" id="candidateRegisterForm">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control") }}
+                        {% if form.email.errors %}
+                            <div class="text-danger">
+                                {% for error in form.email.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control") }}
+                        <div class="form-text">Password must be at least 6 characters long</div>
+                        {% if form.password.errors %}
+                            <div class="text-danger">
+                                {% for error in form.password.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.confirm_password.label(class="form-label") }}
+                        {{ form.confirm_password(class="form-control") }}
+                        {% if form.confirm_password.errors %}
+                            <div class="text-danger">
+                                {% for error in form.confirm_password.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-success btn-lg") }}
+                    </div>
+                </form>
+                
+                <hr>
+                
+                <div class="text-center">
+                    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+                    <p><small>Need admin access? <a href="{{ url_for('admin_register') }}">Register as Admin</a></small></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <div class="alert alert-info">
+                <strong>Candidate Account Benefits:</strong><br>
+                • Submit job applications<br>
+                • Track application status<br>
+                • View application history<br>
+                • Update personal information
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

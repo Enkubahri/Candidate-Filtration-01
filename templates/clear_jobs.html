@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Clear Job Criteria - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mb-0"><i class="fas fa-exclamation-triangle text-warning"></i> Clear Job Criteria</h3>
+                <a href="{{ url_for('manage_jobs') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Jobs
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning" role="alert">
+                    <h6><i class="fas fa-exclamation-triangle"></i> Warning</h6>
+                    This action will permanently delete job criteria from the system. This cannot be undone.
+                </div>
+
+                <form method="POST" id="clearJobsForm" onsubmit="return confirmClear()">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-4">
+                        {{ form.clear_type.label(class="form-label") }}
+                        {{ form.clear_type(class="form-control") }}
+                        <div class="form-text" id="clearTypeHelp">
+                            Select the type of job criteria you want to clear
+                        </div>
+                        {% if form.clear_type.errors %}
+                            <div class="text-danger">
+                                {% for error in form.clear_type.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div id="clearTypeDetails" class="mb-4">
+                        <!-- Dynamic content will be loaded here based on selection -->
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('manage_jobs') }}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                        {{ form.submit(class="btn btn-danger") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Information Card -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0"><i class="fas fa-info-circle"></i> Clear Options Explained</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <dl class="row">
+                            <dt class="col-sm-4">Clear All</dt>
+                            <dd class="col-sm-8">Removes all job criteria from the system, regardless of their status.</dd>
+                            
+                            <dt class="col-sm-4">Clear Closed Only</dt>
+                            <dd class="col-sm-8">Removes only job criteria that are marked as "Closed". Open jobs remain active.</dd>
+                            
+                            <dt class="col-sm-4">Clear Specific</dt>
+                            <dd class="col-sm-8">Redirects to the job management page where you can delete specific jobs individually.</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmClear() {
+    const clearType = document.getElementById('clear_type').value;
+    let message = '';
+    
+    switch(clearType) {
+        case 'all':
+            message = 'Are you sure you want to delete ALL job criteria? This will remove every job from the system and cannot be undone.';
+            break;
+        case 'closed':
+            message = 'Are you sure you want to delete all CLOSED job criteria? This action cannot be undone.';
+            break;
+        case 'specific':
+            message = 'This will redirect you to the job management page for manual selection. Continue?';
+            break;
+        default:
+            message = 'Are you sure you want to proceed with this action?';
+    }
+    
+    return confirm(message);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const clearTypeSelect = document.getElementById('clear_type');
+    const detailsDiv = document.getElementById('clearTypeDetails');
+    
+    function updateDetails() {
+        const selectedValue = clearTypeSelect.value;
+        let content = '';
+        
+        switch(selectedValue) {
+            case 'all':
+                content = `
+                    <div class="alert alert-danger">
+                        <strong>High Risk:</strong> This will delete ALL job criteria in the system.
+                        Make sure you have backups if needed.
+                    </div>
+                `;
+                break;
+            case 'closed':
+                content = `
+                    <div class="alert alert-info">
+                        <strong>Safe Option:</strong> This will only delete jobs marked as "Closed".
+                        Open jobs will remain active and continue accepting applications.
+                    </div>
+                `;
+                break;
+            case 'specific':
+                content = `
+                    <div class="alert alert-secondary">
+                        <strong>Manual Selection:</strong> You'll be redirected to the job management page
+                        where you can delete specific jobs individually.
+                    </div>
+                `;
+                break;
+        }
+        
+        detailsDiv.innerHTML = content;
+    }
+    
+    clearTypeSelect.addEventListener('change', updateDetails);
+    updateDetails(); // Initial load
+});
+</script>
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}Download Resumes - {{ job_title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-download me-2"></i>Download Resumes</h2>
+            <div>
+                <a href="{{ url_for('manage_jobs') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Back to Job Management
+                </a>
+            </div>
+        </div>
+        
+        <!-- Job Information -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-briefcase me-2"></i>{{ job_title }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-0">Select which candidate resumes you would like to download for this job position.</p>
+            </div>
+        </div>
+
+        <!-- Resume Download Options -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-file-download me-2"></i>Download Options</h5>
+            </div>
+            <div class="card-body">
+                {% if status_counts %}
+                    <form method="POST" action="{{ url_for('download_job_resumes', job_id=job_id) }}">
+                        <div class="row">
+                            {% if status_counts.get('passed', 0) > 0 %}
+                            <div class="col-md-6 mb-3">
+                                <div class="card bg-success bg-opacity-10 border-success">
+                                    <div class="card-body text-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="passed" name="passed" value="passed">
+                                            <label class="form-check-label" for="passed">
+                                                <i class="fas fa-check-circle text-success fa-2x d-block mb-2"></i>
+                                                <strong>Passed Candidates</strong>
+                                                <div class="text-success">{{ status_counts.get('passed', 0) }} resumes available</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if status_counts.get('failed', 0) > 0 %}
+                            <div class="col-md-6 mb-3">
+                                <div class="card bg-danger bg-opacity-10 border-danger">
+                                    <div class="card-body text-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="failed" name="failed" value="failed">
+                                            <label class="form-check-label" for="failed">
+                                                <i class="fas fa-times-circle text-danger fa-2x d-block mb-2"></i>
+                                                <strong>Failed Candidates</strong>
+                                                <div class="text-danger">{{ status_counts.get('failed', 0) }} resumes available</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% if status_counts.get('passed', 0) > 0 or status_counts.get('failed', 0) > 0 %}
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success btn-lg me-2">
+                                <i class="fas fa-download me-2"></i>Download Selected Resumes
+                            </button>
+                            <a href="{{ url_for('manage_jobs') }}" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </div>
+                        {% endif %}
+                    </form>
+                {% else %}
+                    <!-- No Resumes Available -->
+                    <div class="text-center">
+                        <i class="fas fa-inbox fa-5x text-muted mb-3"></i>
+                        <h4 class="text-muted">No Resumes Available</h4>
+                        <p class="text-muted">There are no candidate resumes available for this job position.</p>
+                        <a href="{{ url_for('manage_jobs') }}" class="btn btn-primary">
+                            <i class="fas fa-arrow-left me-1"></i>Back to Job Management
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Information Box -->
+        <div class="alert alert-info mt-4" role="alert">
+            <h6 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Download Information</h6>
+            <ul class="mb-0">
+                <li>Resumes will be downloaded as a ZIP file</li>
+                <li>Files will be organized by candidate status (PASSED/FAILED folders)</li>
+                <li>Only candidates with uploaded resumes will be included</li>
+                <li>File names will be formatted as: <code>CandidateName_resume.pdf</code></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-check-input:checked {
+    background-color: var(--bs-success);
+    border-color: var(--bs-success);
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: transform 0.15s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.form-check-label {
+    cursor: pointer;
+    width: 100%;
+}
+
+.bg-opacity-10 {
+    background-color: rgba(var(--bs-success-rgb), 0.1) !important;
+}
+
+.border-success {
+    border-color: var(--bs-success) !important;
+}
+
+.border-danger {
+    border-color: var(--bs-danger) !important;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    // Update button state based on checkbox selection
+    function updateSubmitButton() {
+        const checkedBoxes = form.querySelectorAll('input[type="checkbox"]:checked');
+        if (checkedBoxes.length > 0) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-download me-2"></i>Download Selected Resumes (' + checkedBoxes.length + ' selected)';
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-download me-2"></i>Select at least one option';
+        }
+    }
+    
+    // Add event listeners to checkboxes
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', updateSubmitButton);
+    });
+    
+    // Initial button state
+    updateSubmitButton();
+});
+</script>
+{% endblock %}

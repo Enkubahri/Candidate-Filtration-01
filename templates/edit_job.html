@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Job Criteria - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mb-0"><i class="fas fa-edit"></i> Edit Job Criteria</h3>
+                <a href="{{ url_for('manage_jobs') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Jobs
+                </a>
+            </div>
+            <div class="card-body">
+                <form method="POST" id="editJobForm">
+                    {{ form.hidden_tag() }}
+                    
+                    <!-- Position Title -->
+                    <div class="mb-3">
+                        {{ form.position_title.label(class="form-label") }}
+                        {{ form.position_title(class="form-control") }}
+                        {% if form.position_title.errors %}
+                            <div class="text-danger">
+                                {% for error in form.position_title.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Experience Requirements -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.min_experience.label(class="form-label") }}
+                                {{ form.min_experience(class="form-control") }}
+                                {% if form.min_experience.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.min_experience.errors %}
+                                            <small>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.min_position_years.label(class="form-label") }}
+                                {{ form.min_position_years(class="form-control") }}
+                                {% if form.min_position_years.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.min_position_years.errors %}
+                                            <small>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expected Positions -->
+                    <div class="mb-3">
+                        {{ form.expected_positions.label(class="form-label") }}
+                        {{ form.expected_positions(class="form-control", rows="3") }}
+                        {% if form.expected_positions.errors %}
+                            <div class="text-danger">
+                                {% for error in form.expected_positions.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Education Level -->
+                    <div class="mb-3">
+                        {{ form.preferred_education.label(class="form-label") }}
+                        {{ form.preferred_education(class="form-control") }}
+                        {% if form.preferred_education.errors %}
+                            <div class="text-danger">
+                                {% for error in form.preferred_education.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Required Education Certification -->
+                    <div class="mb-3">
+                        {{ form.required_education_certification.label(class="form-label") }}
+                        {{ form.required_education_certification(class="form-control") }}
+                        <div class="form-text">Specify field of study or certification required (optional)</div>
+                        {% if form.required_education_certification.errors %}
+                            <div class="text-danger">
+                                {% for error in form.required_education_certification.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Email Configuration -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.qualified_email.label(class="form-label") }}
+                                {{ form.qualified_email(class="form-control") }}
+                                {% if form.qualified_email.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.qualified_email.errors %}
+                                            <small>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.unqualified_email.label(class="form-label") }}
+                                {{ form.unqualified_email(class="form-control") }}
+                                {% if form.unqualified_email.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.unqualified_email.errors %}
+                                            <small>{{ error }}</small>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job Status -->
+                    <div class="mb-4">
+                        {{ form.job_status.label(class="form-label") }}
+                        {{ form.job_status(class="form-control") }}
+                        {% if form.job_status.errors %}
+                            <div class="text-danger">
+                                {% for error in form.job_status.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('manage_jobs') }}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

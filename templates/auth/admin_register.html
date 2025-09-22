@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Registration - Candidate Filtration System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0 text-center">Register as Admin</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" id="adminRegisterForm">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control") }}
+                        {% if form.email.errors %}
+                            <div class="text-danger">
+                                {% for error in form.email.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control") }}
+                        <div class="form-text">Password must be at least 6 characters long</div>
+                        {% if form.password.errors %}
+                            <div class="text-danger">
+                                {% for error in form.password.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.confirm_password.label(class="form-label") }}
+                        {{ form.confirm_password(class="form-control") }}
+                        {% if form.confirm_password.errors %}
+                            <div class="text-danger">
+                                {% for error in form.confirm_password.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.admin_key.label(class="form-label") }}
+                        {{ form.admin_key(class="form-control") }}
+                        <div class="form-text">Contact your system administrator for the admin registration key</div>
+                        {% if form.admin_key.errors %}
+                            <div class="text-danger">
+                                {% for error in form.admin_key.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-warning btn-lg") }}
+                    </div>
+                </form>
+                
+                <hr>
+                
+                <div class="text-center">
+                    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+                    <p><small>Looking for candidate access? <a href="{{ url_for('candidate_register') }}">Register as Candidate</a></small></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <div class="alert alert-warning">
+                <strong>Admin Account Privileges:</strong><br>
+                • Set filtration criteria<br>
+                • View all applications<br>
+                • Manage candidate screening<br>
+                • Access system statistics<br><br>
+                <small><strong>Demo Admin Key:</strong> ADMIN_SECRET_2024</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
