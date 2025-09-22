@@ -1,34 +1,12 @@
 # ===============================================================
 # VERCEL DEPLOYMENT REQUIREMENTS
 # ===============================================================
-# Minimal requirements optimized for Vercel serverless deployment
-# Vercel has size and time limitations for package installation
+# Minimal requirements for standalone.py - Vercel serverless deployment
 
-# Core Flask Framework (Essential)
+# Core Flask Framework (Only what's needed)
 Flask==2.3.3
-Flask-CORS==4.0.0
-Werkzeug==2.3.7
 
-# For Form Handling (if needed)
-WTForms==3.0.1
-Flask-WTF==1.2.1
-
-# For Authentication (if needed)
-Flask-Login==0.6.3
-
-# Basic Security
-Werkzeug==2.3.7
-
-# Environment Configuration
-python-dotenv==1.0.0
-
-# Note: Some packages removed for Vercel compatibility:
-# - PyPDF2 and python-docx (large dependencies)
-# - cryptography (compilation issues on serverless)
-# - gunicorn (not needed for serverless)
-# 
-# For full features, use other deployment platforms like:
-# - Railway
-# - Render
-# - Heroku
-# - VPS with Docker
+# Note: 
+# - No flask-cors (we use manual CORS headers in standalone.py)
+# - No other dependencies to avoid build timeouts
+# - Standalone.py is designed to work with just Flask
