@@ -1,14 +1,14 @@
 {
   "builds": [
     {
-      "src": "api/vercel_function.py",
+      "src": "api/candidate_system.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "api/vercel_function.py"
+      "dest": "api/candidate_system.py"
     }
   ]
 }
