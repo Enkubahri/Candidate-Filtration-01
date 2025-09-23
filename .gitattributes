@@ -1,0 +1,48 @@
+# Ensure proper language detection on GitHub
+*.js linguist-language=JavaScript
+*.py linguist-language=Python
+*.html linguist-language=HTML
+*.css linguist-language=CSS
+*.json linguist-language=JSON
+
+# Mark documentation files as documentation
+*.md linguist-documentation
+*.txt linguist-documentation
+SETUP.md linguist-documentation
+README.md linguist-documentation
+DEPLOYMENT*.md linguist-documentation
+VERCEL*.md linguist-documentation
+IMPLEMENTATION*.md linguist-documentation
+DEPENDENCY*.md linguist-documentation
+
+# Mark configuration files properly  
+*.json linguist-language=JSON
+vercel.json linguist-language=JSON
+requirements*.txt linguist-language=Text
+Pipfile linguist-language=TOML
+.env* linguist-language=Shell
+
+# Mark generated or vendor files to be ignored in language stats
+__pycache__/ linguist-generated=true
+*.pyc linguist-generated=true
+*.db linguist-generated=true
+uploads/ linguist-vendored=true
+
+# Ensure line ending consistency
+*.py text eol=lf
+*.js text eol=lf  
+*.html text eol=lf
+*.css text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.sh text eol=lf
+
+# Windows specific files
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files
+*.db binary
+*.sqlite binary
+*.sqlite3 binary

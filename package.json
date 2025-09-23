@@ -1,0 +1,49 @@
+{
+  "name": "candidate-filtration-system",
+  "version": "1.0.0",
+  "description": "AI-powered candidate filtration and recruitment management system with web interface",
+  "main": "static/js/main.js",
+  "scripts": {
+    "start": "python app.py",
+    "dev": "python app.py",
+    "lint:js": "echo 'JavaScript linting not configured yet'",
+    "format:js": "echo 'JavaScript formatting not configured yet'"
+  },
+  "keywords": [
+    "candidate-filtration",
+    "recruitment", 
+    "ai-powered",
+    "flask",
+    "vercel",
+    "serverless",
+    "web-interface",
+    "bootstrap",
+    "charts"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Enkubahri/Candidate-Filtration-01"
+  },
+  "bugs": {
+    "url": "https://github.com/Enkubahri/Candidate-Filtration-01/issues"
+  },
+  "homepage": "https://github.com/Enkubahri/Candidate-Filtration-01#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "files": [
+    "static/",
+    "api/",
+    "templates/",
+    "vercel.json"
+  ]
+}
